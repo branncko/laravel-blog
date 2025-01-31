@@ -7,6 +7,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\NewsletterSubscription;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,6 +51,18 @@ class DatabaseSeeder extends Seeder
                     You can open an issue or (better) a PR if something went wrong."
             ]
         );
+        Post::factory()
+            ->count(20)
+            ->create()
+            ->each(function ($post) {
+                Comment::factory()
+                ->count(5)
+                ->create([
+                    'post_id' => $post->id
+                ]);
+            });
+
+        NewsletterSubscription::factory()->count(5)->create();
 
         // Comments
         Comment::firstOrCreate(
